@@ -1,0 +1,115 @@
+﻿
+@{
+    ViewBag.Title = "Chat";
+}
+
+<div class="row" style="background-color:lightcyan;">
+    <div class="col-12" style="background-color:lightcyan;">
+        Person Name: <span class="text-dark" id="n"></span>
+    </div>
+</div>
+<div class="row mb-3" style="background-color:lightcyan;">
+
+    <div class="btn-group col-12" role="group" style="background-color:lightcyan;">
+        <div class="input-group col-6" style="background-color:lightcyan;">
+            <select class="form-control" id="groupList"></select>
+            <div class="input-group-append" style="background-color:lightcyan;">
+                <button type="button" id="j" class="btn btn-primary"><i class="fa fa-universal-access">Join</i></button>
+            </div>
+        </div>
+        <div class="input-group col-6" style="background-color:lightcyan;">
+            <input class="form-control" id="cl">
+            <div class="input-group-append" style="background-color:lightcyan;">
+                <button type="button" id="jc" class="btn btn-success"><i class="fa fa-plus">Create</i></button>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div class="row" style="background-color:lightcyan;">
+
+
+    <div class="input-group col-6" style="background-color:lightcyan;">
+        <select class="form-control" id="joinedGroups"></select>
+        <div class="input-group-append" style="background-color:lightcyan;">
+            <button type="button" id="l" class="btn btn-danger"><i class="fa fa-sign-out">Leave</i></button>
+        </div>
+    </div>
+
+    <div class="input-group col-6" style="background-color:lightcyan;">
+        <input class="form-control" id="t" />
+        <div class="input-group-append" style="background-color:lightcyan;">
+            <button type="button" id="s" class="btn btn-warning"><i class="fa fa-send">Send</i></button>
+        </div>
+    </div>
+
+</div>
+<div class="row mb-3" style="background-color:lightcyan;">
+    <div class="col-12" style="background-color:lightcyan;">
+        <h4>Messages</h4>
+        <div style="background-color:lightcyan;">
+            <ul id="msgs" class="list-group"></ul>
+        </div>
+    </div>
+</div>
+
+@section styles{
+
+    <link href="~/Content/font-awesome.css" rel="stylesheet" />
+}
+@section scripts{
+    <link href="~/Content/font-awesome.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery.signalR-2.4.1.js"></script>
+    <script src="~/signalr/Hubs"></script>
+    <script>
+        var name;
+        var proxy = $.connection.chatHub;
+
+        proxy.client.updateGroups = groups => {
+            $("#groupList").empty();
+            $.each(groups, (i, v) => {
+                $("#groupList").append(`<option class="dropdown-item" value='${v}'>${v}</option>`);
+            });
+        }
+        proxy.client.message = (s, m) => {
+            $("#msgs").append(`<li class='list-group-item'>${s}: ${m}</li>`)
+        }
+        proxy.client.joinedGroup = (g) => {
+            $("#joinedGroups").append(`<option class="dropdown-item" value='${g}'>${g}</option>`)
+        }
+        proxy.client.leftGroup = (g) => {
+            console.log(g);
+            console.log($(`select #joinedGroups option[value='${g}']`));
+            $(`#joinedGroups option[value='${g}']`).remove();
+        }
+        $.connection.hub.start()
+            .done(() => {
+                name = prompt("Person name?");
+                $("#n").html(name);
+                //Add My Name
+                proxy.server.addMe(name);
+                $("#j").click(() => {
+                    //Join a Group
+                    proxy.server.joinToGroup($("#groupList").val())
+                });
+                $("#jc").click(() => {
+                    //Create a Group
+                    proxy.server.createGroup($("#cl").val());
+                    $("#cl").val('').focus();
+                });
+                $("#l").click(() => {
+                     //Leave From Group
+                    proxy.server.leaveFromGroup($("#joinedGroups").val())
+                });
+                $("#s").click(() => {
+                    //Send Message to Server
+                    proxy.server.messageToGroup($("#joinedGroups").val(), $("#t").val());
+                    //Clear the Message
+                    $("#t").val('').focus();
+                });
+            })
+            .fail(err => {
+                console.log(err);
+            });
+    </script>
+}

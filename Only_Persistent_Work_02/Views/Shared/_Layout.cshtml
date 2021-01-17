@@ -1,0 +1,45 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Persistent Connection</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @RenderSection("styles", required: false)
+</head>
+<body>
+    <div class="navbar navbar-light bg-success fixed-top navbar-expand-md shadow-sm border-bottom">
+        <div class="container">
+         
+                <img src="~/Pictures/Butterfly_ajax_gif.gif" class="rounded-circle" width="50" />
+           
+
+            @Html.ActionLink("Whats up", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#nbar" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="navbar-collapse collapse" id="nbar">
+                <ul class="nav navbar-nav">
+                    <li class="nav-item">@Html.ActionLink("Home", "Index", "Home", new { }, new { @class = "nav-link" })</li>
+                    <li class="nav-item">@Html.ActionLink("Chat", "Chat", "Home", new { }, new { @class = "nav-link" })</li>
+
+                </ul>
+            </div>
+        </div>
+    </div>
+    <section class="bg-image" style="background-image: url('../../Pictures/bg1.jpg'); lighting-color:lightcyan;">
+        <div class="container body-content" style="min-height:450px;">
+            @RenderBody()
+            <hr />
+            <footer>
+                <p>&copy; @DateTime.Now.Year - Afroza</p>
+            </footer>
+        </div>
+        </section>
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/bootstrap")
+        @RenderSection("scripts", required: false)
+</body>
+</html>

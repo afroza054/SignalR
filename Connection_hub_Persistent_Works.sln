@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.1169
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Connection_hub_Persistent_Work_01", "Connection_hub_Persistent_Work_01\Connection_hub_Persistent_Work_01.csproj", "{D7BD7246-74B9-420B-95FA-06D06B728291}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Only_Persistent_Work_02", "Only_Persistent_Work_02\Only_Persistent_Work_02.csproj", "{48E7A036-2C37-4002-8BC4-8B59D9AAAB75}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D7BD7246-74B9-420B-95FA-06D06B728291}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D7BD7246-74B9-420B-95FA-06D06B728291}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D7BD7246-74B9-420B-95FA-06D06B728291}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D7BD7246-74B9-420B-95FA-06D06B728291}.Release|Any CPU.Build.0 = Release|Any CPU
+		{48E7A036-2C37-4002-8BC4-8B59D9AAAB75}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{48E7A036-2C37-4002-8BC4-8B59D9AAAB75}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{48E7A036-2C37-4002-8BC4-8B59D9AAAB75}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{48E7A036-2C37-4002-8BC4-8B59D9AAAB75}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1E32B05E-C0A6-4C1F-8267-6129310EB0F3}
+	EndGlobalSection
+EndGlobal

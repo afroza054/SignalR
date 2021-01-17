@@ -1,0 +1,72 @@
+﻿
+@{
+    ViewBag.Title = "Chat";
+}
+
+<div class="row" style="background-color:aliceblue;">
+    <div class="col-4" style="background-color:aliceblue;">
+        <h3>Persons in Persistent Connection</h3>
+        <ul class="list-group" id="users"></ul>
+    </div>
+    <div class="col-8" style="background-color:aliceblue;">
+        <div class="row" style="background-color:aliceblue;">
+            <div class="col-12" style="background-color:aliceblue;">
+                <div class="btn-toolbar" style="background-color:aliceblue;">
+                    <div class="input-group col-12" style="background-color:aliceblue;">
+                        <input type="text" class="form-control" id="t" />
+                        <div class="input-group-append" style="background-color:aliceblue;">
+                            <button type="button" class="btn btn-primary" id="b"><i class="fa fa-reply"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" style="background-color:aliceblue;">
+            <div class="col-12" style="background-color:aliceblue;">
+                <h4>Messages</h4>
+                <div style="background-color:aliceblue;">
+                    <ul id="msgs" class="list-group"></ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section styles{
+    <link href="~/Content/font-awesome.css" rel="stylesheet" />
+}
+@section scripts{
+
+    <script src="~/Scripts/jquery.signalR-2.4.1.js"></script>
+
+    <script>
+        var name;
+        var connection = $.connection("/chat");
+        connection.received((data) => {
+            console.log(data);
+            if (data.MessageType == "updateUsers") {
+                $("#users").empty();
+                $.each(data.List, (i, v) => {
+                    $("#users").append(`<li class="list-group-item">${v}</li>`);
+                });
+            }
+            if (data.MessageType == "message") {
+                $("#msgs").append(`<li class='list-group-item'>${data.From}: ${data.Data}</li>`)
+            }
+
+        });
+        connection.start()
+            .done(() => {
+                console.log("connected");
+                name = prompt("Friend name?");
+                connection.send(JSON.stringify({ MessageType: "addMe", From: name, Data: "" }));
+                $("#b").click(() => {
+                    connection.send(JSON.stringify({ MessageType: "message", From: name, Data: $("#t").val() }));
+                    $("#t").val("");
+                })
+            })
+            .fail(err => {
+                console.log(err);
+            });
+
+    </script>
+}
